@@ -14,15 +14,20 @@ categoryRouter.get('/', async (req, res)=>{
 
 categoryRouter.get('/:name', async (req, res) => {
     const { name } = req.params;
-        
+    const match = await Category.findOne({name});
+
+    if(!match || !name){
+        res.status(404).send({message: 'Something went wrong'})
+    } else {
         const responseMap = await Category.find({name})
                 .populate({
                     path: 'products',
                     model: 'Product',
                 })
                 .exec();
-
-        res.send(responseMap);
+    
+        res.status(200).send(responseMap);
+    }
 })
 
 categoryRouter.post('/create', async (req, res) => {
@@ -41,6 +46,14 @@ categoryRouter.post('/create', async (req, res) => {
         console.log(err)
     })
     
+})
+
+categoryRouter.delete('/delete/:name', async (req, res) => {
+    const { name } = req.params;
+
+    await Category.deleteOne({name})
+        .then(category => res.send(category))
+        .catch(err => console.log(`Error deleting Product: `, err))
 })
 
     
