@@ -54,6 +54,10 @@ Body should be like this: {
     name: "categoryNameToAdd"
 }
 
+DELETE || http://localhost:3000/api/categories/delete/:name
+
+name = Pants e.g and category will be deleted. Products inside won't be deleted. That's is the function of another request.
+
 
 
 
