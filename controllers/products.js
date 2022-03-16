@@ -36,24 +36,43 @@ const newProduct = await new Product(product); // We create a new instance of Pr
 
     
     newProduct.save().then(async (saveProduct)=> {
-        const cateID = await Category.find({ name: saveProduct.category})
-            await Category.updateOne(
-                { _id: cateID}, 
+
+    Category.updateOne(
+                { name: saveProduct.category}, 
                 { 
                     $push: {
                         products: saveProduct._id
                     }
                 }, 
                 function (err, raw) {
-                    if (err) return handleError(err);
+                    if (err) return err;
                     console.log('The raw response from Mongo was ', raw);
                 }
             )
         res.json(saveProduct)
     }) // Then we save our product in DB and save is a promise so we can res the new product
-
-
-
+    
 })
 
-module.exports = productRoute;
+// delete a product itself and from his category
+productRoute.delete('/delete/:id', async (req, res)=>{
+    const { id } = req.params;
+
+    const saveProd = await Product.findById(id);
+    const cate = saveProd.category
+    await Product.deleteOne({_id: id}).then(prod => console.log(`Product deleted`)).catch(err => console.log(`Error deleting Product: `, err))
+
+
+    await Category.updateOne({name: cate}, {
+        
+        $pullAll: {
+                products: [id]
+            },
+        },
+    )
+
+    res.sendStatus(201)
+    })
+
+    
+module.exports = productRoute

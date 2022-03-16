@@ -5,7 +5,10 @@ const { Schema, model } = require('mongoose');
 
 const categorySchema = new Schema(
     {
-        name: String,
+        name: {
+            type: String,
+            unique: true
+        },
         products: [{
             type: Schema.Types.ObjectId,
             ref: 'Product'
