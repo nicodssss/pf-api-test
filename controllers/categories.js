@@ -2,14 +2,17 @@ const categoryRouter = require('express').Router();
 const Category = require('../models/products/Category')
 
 categoryRouter.get('/', async (req, res)=>{
-    const response = await Category.find()
-                .populate({
-                    path: 'products',
-                    model: 'Product',
-                })
-                .exec();
+    await Category.find({})
+        .then(category => {
+            const response = category.map(cate => {
+                return cate.name;
+            })
+            res.send(response);
+        })
+        .catch(err => {
+            res.send(err);
+        })
 
-        res.send(response);
 })
 
 categoryRouter.get('/:name', async (req, res) => {
