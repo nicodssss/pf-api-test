@@ -1,18 +1,18 @@
-const productRoute = require('express').Router();
+const productRouter = require('express').Router();
 const Product = require('../models/products/Product');
 const Category = require('../models/products/Category')
 
 
 // GET || http://localhost:3000/api/products
-productRoute.get('/', (req, res) => {
-    Product.find({ }).then((products) =>{
+productRouter.get('/', (req, res) => {
+    Product.find({}).then((products) =>{
         
         res.json(products)
             })
     .catch(err => res.status(err))
 })
 // GET || http://localhost:3000/api/products/:id
-productRoute.get('/:id', (req, res) => {
+productRouter.get('/:id', (req, res) => {
 const { id } = req.params;
     Product.findById(id)
     .then(products =>{
@@ -26,7 +26,7 @@ const { id } = req.params;
 
 
 // POST || http://localhost:3000/api/products/create
-productRoute.post('/create', async (req, res) => {
+productRouter.post('/create', async (req, res) => {
 
 const product = req.body;
 
@@ -57,7 +57,7 @@ const newProduct = await new Product(product); // We create a new instance of Pr
 })
 
 // http://localhost:3000/api/products/delete/:id
-productRoute.delete('/delete/:id', async (req, res)=>{
+productRouter.delete('/delete/:id', async (req, res)=>{
     const { id } = req.params;
 
     const saveProd = await Product.findById(id);
@@ -77,4 +77,4 @@ productRoute.delete('/delete/:id', async (req, res)=>{
     })
 
     
-module.exports = productRoute
+module.exports = productRouter;

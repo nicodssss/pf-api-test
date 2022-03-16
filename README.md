@@ -2,7 +2,10 @@ step 1 git clone "repourl";
 step 2 npm install
 step 3 npm run dev
 
+
+
 ###PRODUCT - ROUTES
+
 GET || http://localhost:3000/api/products
 Returns all products.
 
@@ -30,12 +33,42 @@ DELETE || http://localhost:3000/api/products/delete/:id
 ** Pass in params ID = a product ID
 ** e.g: 62316b69af6a67376456cfcd .
 
+
+
+
+
+
+
+###CATEGORIES - ROUTES
+
+GET || http://localhost:3000/api/categories
+We get all categories ---> In future array with products will appear with their info :D
+
+GET || http://localhost:3000/api/categories/:name
+
+name = T-Shirt e.g
+
+POST || http://localhost:3000/api/categories/create
+
+Body should be like this: {
+    name: "categoryNameToAdd"
+}
+
+
+
+
+
 ###USER - CREATE || METHOD: POST || URL: http://localhost:3000/api/users
 Body should be like this: {
     username: ""
     name: ""
     password: ""
     }
+
+
+
+
+
 
 ###USER - LOGIN  METHOD: POST || URL: http://localhost:3000/api/login'
 Body should be like this: {
